@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.Json;
 using CanvasClient.Domain;
 using CanvasClient.Extensions;
+using Microsoft.Extensions.Options;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -26,6 +27,12 @@ namespace CanvasClient
         {
             client = new RestClient(BaseUrl);
             _canvasOptions = options;
+        }
+
+        public CanvasApi(IOptions<CanvasOptions> options)
+        {
+            client = new RestClient(BaseUrl);
+            _canvasOptions = options.Value;
         }
 
         public CanvasOptions Options
