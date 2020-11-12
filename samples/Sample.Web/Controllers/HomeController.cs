@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CanvasClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sample.Web.Models;
@@ -18,8 +19,9 @@ namespace Sample.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromServices] CanvasApi canvas)
         {
+            ViewData["testresult"] = canvas.TokenErrorCheck() ?? "ok";
             return View();
         }
 

@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>307679fd-3560-42a8-afd5-5c45e86c13fe</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CanvasClient.csproj" />
+  </ItemGroup>
 
 </Project>
