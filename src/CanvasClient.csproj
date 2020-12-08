@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>CanvasClient.Law.Ucdavis.Edu</PackageId>
+    <Authors>UC Davis School of Law</Authors>
+    <Company>UC Davis School of Law</Company>
+    <Description>Canvas API Client for reading accounts, terms, courses, calendar events, and writing to calendar events.</Description>
+    <RepositoryUrl>gitproj/CanvasClient</RepositoryUrl>
+    <PackageTags>Canvas API REST client</PackageTags>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
