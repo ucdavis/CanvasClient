@@ -15,7 +15,7 @@ namespace CanvasClient.Extensions
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public static string NextPageUrl(this IList<Parameter> headers)
+        public static string NextPageUrl(this IReadOnlyCollection<HeaderParameter> headers)
         {
             var linkHeader = headers.FirstOrDefault(h => h.Name.ToLower() == "link");
 

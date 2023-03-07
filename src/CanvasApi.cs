@@ -52,7 +52,7 @@ namespace CanvasClient
         {
             client.Authenticator = ApiToken;
 
-            var request = new RestRequest("accounts", Method.GET, DataFormat.Json)
+            var request = new RestRequest("accounts", Method.Get)
                 .AddParameter("per_page", 1);
 
             var response = client.Execute(request);
@@ -92,18 +92,18 @@ namespace CanvasClient
 
             var pagedData = new List<Account>();
 
-            var request = new RestRequest("accounts", Method.GET, DataFormat.Json)
+            var request = new RestRequest("accounts", Method.Get)
                 .AddParameter("per_page", PageSize);
 
             do
             {
-                var response = client.Get<List<Account>>(request);
-                if (response.Data != null)
+                var response = client.Get(request);
+                if (response != null && response.Content != null)
                 {
-                    pagedData.AddRange(response.Data);
+                    pagedData.AddRange(JsonSerializer.Deserialize<List<Account>>(response.Content));
                 }
 
-                request = new RestRequest(response.Headers.NextPageUrl());
+                request = new RestRequest(response.ContentHeaders.NextPageUrl());
             }
             while (!String.IsNullOrEmpty(request.Resource));
 
@@ -121,16 +121,16 @@ namespace CanvasClient
 
             var pagedData = new List<EnrollmentTerm>();
 
-            var request = new RestRequest("accounts/{account_id}/terms", Method.GET, DataFormat.Json)
+            var request = new RestRequest("accounts/{account_id}/terms", Method.Get)
                 .AddParameter("account_id", 1, ParameterType.UrlSegment)
                 .AddParameter("per_page", PageSize);
 
             do
             {
-                var response = client.Get<EnrollmentTermList>(request);
-                if (response.Data != null)
+                var response = client.Get(request);
+                if (response != null && response.Content != null)
                 {
-                    pagedData.AddRange(response.Data.enrollment_terms);
+                    pagedData.AddRange(JsonSerializer.Deserialize<EnrollmentTermList>(response.Content).enrollment_terms);
                 }
 
                 request = new RestRequest(response.Headers.NextPageUrl());
@@ -153,7 +153,7 @@ namespace CanvasClient
 
             var pagedData = new List<Course>();
 
-            var request = new RestRequest("accounts/{account_id}/courses", Method.GET, DataFormat.Json)
+            var request = new RestRequest("accounts/{account_id}/courses", Method.Get)
                 .AddParameter("account_id", accountId, ParameterType.UrlSegment)
                 .AddParameter("enrollment_term_id", termId)
                 .AddParameter("with_enrollments", true)
@@ -161,10 +161,10 @@ namespace CanvasClient
 
             do
             {
-                var response = client.Get<List<Course>>(request);
-                if (response.Data != null)
+                var response = client.Get(request);
+                if (response != null && response.Content != null)
                 {
-                    pagedData.AddRange(response.Data);
+                    pagedData.AddRange(JsonSerializer.Deserialize<List<Course>>(response.Content));
                 }
 
                 request = new RestRequest(response.Headers.NextPageUrl());
@@ -188,7 +188,7 @@ namespace CanvasClient
 
             var pagedData = new List<CalendarEvent>();
 
-            var request = new RestRequest("calendar_events", Method.GET, DataFormat.Json)
+            var request = new RestRequest("calendar_events", Method.Get)
                 .AddParameter("context_codes[]", $"course_{courseId}")
                 .AddParameter("start_date", startDate.ToString("yyyy-MM-dd"))
                 .AddParameter("end_date", endDate.ToString("yyyy-MM-dd"))
@@ -196,10 +196,10 @@ namespace CanvasClient
 
             do
             {
-                var response = client.Get<List<CalendarEvent>>(request);
-                if (response.Data != null)
+                var response = client.Get(request);
+                if (response != null && response.Content != null)
                 {
-                    pagedData.AddRange(response.Data);
+                    pagedData.AddRange(JsonSerializer.Deserialize<List<CalendarEvent>>(response.Content));
                 }
 
                 request = new RestRequest(response.Headers.NextPageUrl());
@@ -218,7 +218,7 @@ namespace CanvasClient
         {
             client.Authenticator = ApiToken;
 
-            var request = new RestRequest("calendar_events", Method.POST, DataFormat.Json)
+            var request = new RestRequest("calendar_events", Method.Post)
                 .AddJsonBody(eventRequest);
 
             var response = client.Execute(request);
@@ -240,7 +240,7 @@ namespace CanvasClient
         {
             client.Authenticator = ApiToken;
 
-            var request = new RestRequest("calendar_events/{id}", Method.DELETE, DataFormat.Json)
+            var request = new RestRequest("calendar_events/{id}", Method.Delete)
                 .AddParameter("id", eventId, ParameterType.UrlSegment);
 
             var response = client.Execute(request);
