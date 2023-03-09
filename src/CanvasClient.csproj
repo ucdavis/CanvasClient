@@ -9,9 +9,9 @@
     <RepositoryUrl>gitproj/CanvasClient</RepositoryUrl>
     <PackageTags>Canvas API REST client</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
-    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2</FileVersion>
+    <Version>1.0.2</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
