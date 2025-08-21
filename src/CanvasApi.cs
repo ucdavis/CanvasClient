@@ -25,14 +25,22 @@ namespace CanvasClient
 
         public CanvasApi(CanvasOptions options)
         {
-            client = new RestClient(BaseUrl);
             _canvasOptions = options;
+            var restOptions = new RestClientOptions(BaseUrl)
+            {
+                Authenticator = ApiToken
+            };
+            client = new RestClient(restOptions);
         }
 
         public CanvasApi(IOptions<CanvasOptions> options)
         {
-            client = new RestClient(BaseUrl);
             _canvasOptions = options.Value;
+            var restOptions = new RestClientOptions(BaseUrl)
+            {
+                Authenticator = ApiToken
+            };
+            client = new RestClient(restOptions);
         }
 
         public CanvasOptions Options
@@ -40,6 +48,11 @@ namespace CanvasClient
             set
             {
                 _canvasOptions = value;
+                var restOptions = new RestClientOptions(BaseUrl)
+                {
+                    Authenticator = ApiToken
+                };
+                client = new RestClient(restOptions);
             }
         }
 
@@ -50,8 +63,6 @@ namespace CanvasClient
         /// <returns>null if test passed and data was returned, error message otherwise.</returns>
         public string TokenErrorCheck()
         {
-            client.Authenticator = ApiToken;
-
             var request = new RestRequest("accounts", Method.Get)
                 .AddParameter("per_page", 1);
 
@@ -88,8 +99,6 @@ namespace CanvasClient
         /// <remarks>https://canvas.instructure.com/doc/api/all_resources.html#method.accounts.index</remarks>
         public List<Account> ListAccounts()
         {
-            client.Authenticator = ApiToken;
-
             var pagedData = new List<Account>();
 
             var request = new RestRequest("accounts", Method.Get)
@@ -117,8 +126,6 @@ namespace CanvasClient
         /// <remarks>https://canvas.instructure.com/doc/api/all_resources.html#method.terms_api.index</remarks>
         public List<EnrollmentTerm> ListEnrollmentTerms()
         {
-            client.Authenticator = ApiToken;
-
             var pagedData = new List<EnrollmentTerm>();
 
             var request = new RestRequest("accounts/{account_id}/terms", Method.Get)
@@ -149,8 +156,6 @@ namespace CanvasClient
         /// <remarks>https://canvas.instructure.com/doc/api/all_resources.html#method.accounts.courses_api</remarks>
         public List<Course> ListActiveCourses(int accountId, int termId)
         {
-            client.Authenticator = ApiToken;
-
             var pagedData = new List<Course>();
 
             var request = new RestRequest("accounts/{account_id}/courses", Method.Get)
@@ -184,8 +189,6 @@ namespace CanvasClient
         /// <remarks>https://canvas.instructure.com/doc/api/all_resources.html#method.calendar_events_api.index</remarks>
         public List<CalendarEvent> ListCalendarEvents(int courseId, DateTime startDate, DateTime endDate)
         {
-            client.Authenticator = ApiToken;
-
             var pagedData = new List<CalendarEvent>();
 
             var request = new RestRequest("calendar_events", Method.Get)
@@ -216,8 +219,6 @@ namespace CanvasClient
         /// <returns>Created CalendarEvent, otherwise null</returns>
         public CalendarEvent CreateCalendarEvent(CalendarEventRequest eventRequest)
         {
-            client.Authenticator = ApiToken;
-
             var request = new RestRequest("calendar_events", Method.Post)
                 .AddJsonBody(eventRequest);
 
@@ -238,8 +239,6 @@ namespace CanvasClient
         /// <returns>true if deleted successfully</returns>
         public bool DeleteCalendarEvent(int eventId)
         {
-            client.Authenticator = ApiToken;
-
             var request = new RestRequest("calendar_events/{id}", Method.Delete)
                 .AddParameter("id", eventId, ParameterType.UrlSegment);
 
